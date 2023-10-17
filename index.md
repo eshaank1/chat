@@ -10,14 +10,13 @@ Currently under development :)
 
 # Here's a button while you wait
 
-<!DOCTYPE html>
 <html>
 <head>
 <style>
   #movingButton {
     position: absolute;
-    top: 50px;
-    left: 50px;
+    top: 100px;
+    left: 100px;
   }
 </style>
 </head>
