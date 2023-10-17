@@ -4,4 +4,6 @@ title: Student Blog
 ---
 
 
-## Add here
+## Welcome To The Chat Room
+
+Currently under development :)
