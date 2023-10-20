@@ -30,5 +30,33 @@ Currently under development :)
 </head>
 <body>
   <a class="styled-button" href="{{site.baseurl}}/chatroom/">CHATROOM</a>
+  <br>
+  <br>
+  <br>
 </body>
 </html>
+<html>
+<head>
+    <style>
+        .p1 {
+            font-family: "Lucida Console", "Courier New", monospace;
+            text-align: center;
+            line-height: 50px;
+            font-size: 30px;
+            text-shadow: 2px 2px 5px lightblue;
+          }
+        .p2 {
+          font-family: "Lucida Console", "Courier New", monospace;
+            text-align: center;
+            line-height: 20px;
+            font-size: 15px;
+        }
+      </style>
+</head>
+<body>
+    <div class='p1'>
+    <p>How This Website Works?</p>
+    </div>
+    <div class='p2'>
+    <i>In this chat website, we make a server that allow users to go inside and chat in  our website. In our website, people can set a username so next time they join, they will got their name. </i>
+    </div>
