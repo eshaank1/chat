@@ -46,7 +46,7 @@ Currently under development :)
     <style>
         .box {
             width: 600px;
-            height: 100px;
+            height: 70px;
             background-color: white;
             color: black;
             position: relative;
@@ -61,7 +61,7 @@ Currently under development :)
         .p2 {
           font-family: "Lucida Console", "Courier New", monospace;
             text-align: center;
-            line-height: 30px;
+            line-height: 20px;
             font-size: 15px;
         }
       </style>
