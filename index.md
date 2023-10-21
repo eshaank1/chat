@@ -29,7 +29,7 @@ Currently under development :)
   </style>
 </head>
 <body>
-  <a class="styled-button" href="{{site.baseurl}}/chatroom/">CHATROOM</a>
+  <a class="styled-button" href="{{site.baseurl}}/chatroom">CHATROOM</a>
   <br>
   <br>
   <br>
