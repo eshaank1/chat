@@ -1,4 +1,5 @@
 ---
+comments: false
 layout: default
 title: Chatroom
 permalink: /chatroom
