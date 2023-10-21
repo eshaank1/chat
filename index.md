@@ -3,10 +3,39 @@ layout: default
 title: Student Blog
 ---
 
-
-# Welcome To The Chat Room
-
-Currently under development :)
+<html>
+<head>
+  <style>
+    .welcome-background {
+      width: 600px;
+      height: 100px;
+      background-color: red;
+      animation-name: example;
+      animation-duration: 4s;
+      animation-iteration-count: infinite;
+    }
+        @keyframes example {
+      0%   {background-color: red;}
+      25%  {background-color: yellow;}
+      50%  {background-color: blue;}
+      100% {background-color: green;}
+    }
+    .welcome-text {
+      font-family: "Lucida Console", "Courier New", monospace;
+            text-align: center;
+            line-height: 50px;
+            font-size: 50px;
+            text-shadow: 2px 2px 5px DarkOrchid;
+    }
+  </style>
+</head>
+<body>
+  <div class='welcome-background'>
+  <div class='welcome-text'>
+    <p>Welcome to Chat Room</p>
+    <br>
+    <br>
+  </div>
 
 <html>
 <head>
@@ -43,13 +72,15 @@ Currently under development :)
             text-align: center;
             line-height: 50px;
             font-size: 30px;
-            text-shadow: 2px 2px 5px lightblue;
+            text-shadow: 2px 2px 5px blue;
+            color: white
           }
         .p2 {
           font-family: "Lucida Console", "Courier New", monospace;
-            text-align: center;
-            line-height: 20px;
-            font-size: 15px;
+          text-align: center;
+          line-height: 20px;
+          font-size: 15px;
+          color: white
         }
       </style>
 </head>
@@ -60,3 +91,4 @@ Currently under development :)
     <div class='p2'>
     <i>In this chat website, we make a server that allow users to go inside and chat in  our website. In our website, people can set a username so next time they join, they will got their name. </i>
     </div>
+</body>
