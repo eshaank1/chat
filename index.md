@@ -59,4 +59,8 @@ Currently under development :)
     </div>
     <div class='p2'>
     <i>In this chat website, we make a server that allow users to live chat with other users. </i>
+    <br>
+    <br>
+    <br>
+    <i>Built By: Eshaan Kumar, Brandon So, Ninaad Kiran, Aaron Hsu</i>
     </div>
