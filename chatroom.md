@@ -20,7 +20,7 @@ permalink: /chatroom
             margin: 0;
         }
         .chatroom {
-            width: 300px;
+            width: 700px;
             background-color: #000;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -72,7 +72,7 @@ permalink: /chatroom
 <body>
     <div class="chatroom">
         <div class="chatroom-header">
-            <h2>Chat Room</h2>
+            <h2>Chatroom</h2>
         </div>
         <div class="chatroom-messages" id="chatroom-messages">
             <!-- Messages will be displayed here -->
