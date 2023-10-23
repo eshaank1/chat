@@ -3,10 +3,39 @@ layout: default
 title: Home
 ---
 
-
-# Welcome To The Chat Room
-
-Currently under development :)
+<html>
+<head>
+  <style>
+    .welcome-background {
+      width: 600px;
+      height: 100px;
+      background-color: red;
+      animation-name: example;
+      animation-duration: 4s;
+      animation-iteration-count: infinite;
+    }
+        @keyframes example {
+      0%   {background-color: red;}
+      25%  {background-color: yellow;}
+      50%  {background-color: blue;}
+      100% {background-color: green;}
+    }
+    .welcome-text {
+      font-family: "Lucida Console", "Courier New", monospace;
+            text-align: center;
+            line-height: 50px;
+            font-size: 50px;
+            text-shadow: 2px 2px 5px DarkOrchid;
+    }
+  </style>
+</head>
+<body>
+  <div class='welcome-background'>
+  <div class='welcome-text'>
+    <p>Welcome to Chat Room</p>
+    <br>
+    <br>
+  </div>
 
 <html>
 <head>
