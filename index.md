@@ -89,7 +89,6 @@ title: Home
     <p>How This Website Works?</p>
     </div>
     <div class='p2'>
-    <i>In this chat website, we make a server that allow users to go inside and chat in  our website. In our website, people can set a username so next time they join, they will got their name. </i>
     <i>In this chat website, we make a server that allow users to live chat with other users. </i>
     <br>
     <br>
