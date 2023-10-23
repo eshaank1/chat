@@ -40,7 +40,7 @@ permalink: /chatroom
             background-color: #000;
         }
         .chatroom-messages div {
-            background-color: #000;
+            background-color: #FFFFFF;
             border-radius: 5px;
             margin: 5px 0;
             padding: 10px;
@@ -49,7 +49,7 @@ permalink: /chatroom
         .chatroom-input {
             padding: 10px;
             display: flex;
-            border-top: 1px solid #000;
+            border-top: 1px solid #FFFFFF;
         }
         input[type="text"] {
             flex: 1;
@@ -57,10 +57,11 @@ permalink: /chatroom
             border: none;
             border-radius: 5px;
             background-color: #301934;
+            color: #FFFFFF;
         }
         button {
             background-color: #301934;
-            color: #000;
+            color: #FFFFFF;
             border: none;
             border-radius: 5px;
             padding: 10px 20px;
