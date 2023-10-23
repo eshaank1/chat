@@ -1,41 +1,12 @@
 ---
 layout: default
-title: Student Blog
+title: Home
 ---
 
-<html>
-<head>
-  <style>
-    .welcome-background {
-      width: 600px;
-      height: 100px;
-      background-color: red;
-      animation-name: example;
-      animation-duration: 4s;
-      animation-iteration-count: infinite;
-    }
-        @keyframes example {
-      0%   {background-color: red;}
-      25%  {background-color: yellow;}
-      50%  {background-color: blue;}
-      100% {background-color: green;}
-    }
-    .welcome-text {
-      font-family: "Lucida Console", "Courier New", monospace;
-            text-align: center;
-            line-height: 50px;
-            font-size: 50px;
-            text-shadow: 2px 2px 5px DarkOrchid;
-    }
-  </style>
-</head>
-<body>
-  <div class='welcome-background'>
-  <div class='welcome-text'>
-    <p>Welcome to Chat Room</p>
-    <br>
-    <br>
-  </div>
+
+# Welcome To The Chat Room
+
+Currently under development :)
 
 <html>
 <head>
@@ -58,7 +29,7 @@ title: Student Blog
   </style>
 </head>
 <body>
-  <a class="styled-button" href="{{site.baseurl}}/chatroom/">CHATROOM</a>
+  <a class="styled-button" href="{{site.baseurl}}/chatroom">CHATROOM</a>
   <br>
   <br>
   <br>
@@ -90,5 +61,11 @@ title: Student Blog
     </div>
     <div class='p2'>
     <i>In this chat website, we make a server that allow users to go inside and chat in  our website. In our website, people can set a username so next time they join, they will got their name. </i>
+    <i>In this chat website, we make a server that allow users to live chat with other users. </i>
+    <br>
+    <br>
+    <br>
+    <i>Built By: Eshaan Kumar, Brandon So, Ninaad Kiran, Aaron Hsu</i>
     </div>
 </body>
+    

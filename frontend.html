@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Website</title>
+</head>
+<body>
+    <h1>Chat Room</h1>
+    <div id="chat">
+        <!-- Chat messages will be displayed here -->
+    </div>
+    <input type="text" id="messageInput" placeholder="Type your message">
+    <button id="sendMessage">Send</button>
+
+    <script>
+        const chatDiv = document.getElementById("chat");
+        const messageInput = document.getElementById("messageInput");
+        const sendMessageBtn = document.getElementById("sendMessage");
+        
+        sendMessageBtn.addEventListener("click", () => {
+            const message = messageInput.value;
+            if (message) {
+                // Send the message to the backend
+                const data = { "message": message };
+                fetch("https://chat.stu.nighthawkcodingsociety.com/api/chat/create", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+                    // Clear the input field after sending the message
+                    messageInput.value = "";
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+            }
+        });
+
+        // Function to display chat messages
+        function displayChatMessage(message) {
+            const messageDiv = document.createElement("div");
+            messageDiv.textContent = message;
+            chatDiv.appendChild(messageDiv);
+        }
+    </script>
+</body>
+</html>
