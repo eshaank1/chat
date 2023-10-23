@@ -8,7 +8,7 @@ title: Home
   <style>
     .welcome-background {
       width: 600px;
-      height: 100px;
+      height: 190px;
       background-color: red;
       animation-name: example;
       animation-duration: 4s;
@@ -21,10 +21,10 @@ title: Home
       100% {background-color: green;}
     }
     .welcome-text {
-      font-family: "Lucida Console", "Courier New", monospace;
+      font-family: "Pacifico", "Courier New", monospace;
             text-align: center;
             line-height: 50px;
-            font-size: 50px;
+            font-size: 70px;
             text-shadow: 2px 2px 5px DarkOrchid;
     }
   </style>
@@ -32,8 +32,8 @@ title: Home
 <body>
   <div class='welcome-background'>
   <div class='welcome-text'>
-    <p>Welcome to Chat Room</p>
     <br>
+    <p>Welcome to CHATROOM</p>
     <br>
   </div>
 
