@@ -40,7 +40,7 @@ permalink: /chatroom
             background-color: #000;
         }
         .chatroom-messages div {
-            background-color: #FFFFFF;
+            background-color: #000;
             border-radius: 5px;
             margin: 5px 0;
             padding: 10px;
