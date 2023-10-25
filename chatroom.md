@@ -80,7 +80,16 @@ permalink: /chatroom
         </div>
         <div class="chatroom-input">
             <input type="text" id="user-input" placeholder="Type your message...">
-            <button onclick="sendMessage()">Send</button>
+            <button id="myBtn" onclick="sendMessage()">Send</button>
+            <script>
+            var input = document.getElementById("user-input");
+            input.addEventListener("keypress", function(event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    document.getElementById("myBtn").click();
+                }
+            });
+            </script>
         </div>
     </div>
     <script>
