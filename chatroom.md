@@ -21,6 +21,7 @@ permalink: /chatroom
         }
         .chatroom {
             width: 700px;
+            height: 500px;
             background-color: #000;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -34,10 +35,19 @@ permalink: /chatroom
             border-bottom: 1px solid #000;
         }
         .chatroom-messages {
-            min-height: 200px;
+            max-height: 360px;
+            min-height: 360px;
             padding: 10px;
             overflow-y: auto;
             background-color: #000;
+            scrollbar-width: thin; /* for Firefox */
+            scrollbar-color: #301934 #000; /* for Firefox */
+        }
+        .chatroom-messages::-webkit-scrollbar {
+            width: 8px; /* for Chrome, Safari, and Opera */
+        }
+        .chatroom-messages::-webkit-scrollbar-thumb {
+            background-color: #301934; /* for Chrome, Safari, and Opera */+
         }
         .chatroom-messages div {
             background-color: #000;
