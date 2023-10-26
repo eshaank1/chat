@@ -91,19 +91,19 @@ permalink: /chatroom
         </div>
         <div class="chatroom-input">
             <input type="text" id="user-input" placeholder="Type your message...">
+            <button id="emojiButton">Select Emoji</button> <!-- Added emoji button -->
             <button id="myBtn" onclick="sendMessage()">Send</button>
-            <script>
-            var input = document.getElementById("user-input");
-            input.addEventListener("keypress", function(event) {
-                if (event.key === "Enter") {
-                    event.preventDefault();
-                    document.getElementById("myBtn").click();
-                }
-            });
-            </script>
         </div>
     </div>
+    <!-- JavaScript for sending messages, toggling dark/light mode, and emoji selection -->
     <script>
+        var input = document.getElementById("user-input");
+        input.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById("myBtn").click();
+            }
+        });
         function sendMessage() {
             const userInput = document.getElementById('user-input');
             const message = userInput.value.trim();
@@ -147,9 +147,22 @@ permalink: /chatroom
                 toggleButton.textContent = 'Light Mode';
             }
         }
-        document.addEventListener("DOMContentLoaded", function () {
-            document.body.classList.add("dark-mode");
-        });
+        // Function for opening an emoji picker
+        function selectEmoji() {
+            // Use the "emoji-button" library to create an emoji picker
+            const picker = new EmojiButton();
+            picker.on('emoji', emoji => {
+                const userInput = document.getElementById('user-input');
+                userInput.value += emoji; // Insert the selected emoji into the input field.
+            });
+            // Show the emoji picker
+            picker.showPicker(document.getElementById('emojiButton'));
+        }
+        // Event listener for the emoji button
+        const emojiButton = document.getElementById('emojiButton');
+        emojiButton.addEventListener('click', selectEmoji);
     </script>
+    <!-- Include the emoji-button library -->
+    <script src="https://cdn.jsdelivr.net/npm/emoji-button@3.0.0/dist/emoji-button.min.js"></script>
 </body>
 </html>
