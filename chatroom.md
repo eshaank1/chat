@@ -5,8 +5,6 @@ title: Chatroom
 permalink: /chatroom
 ---
 
-## Chat Room
-
 <html>
 <head>
     <style>
@@ -50,6 +48,13 @@ permalink: /chatroom
             background-color: #301934; /* for Chrome, Safari, and Opera */
         }
         .chatroom-messages div {
+        background-color: #FFF; /* Change background color for sent messages in light mode */
+        border-radius: 5px;
+        margin: 5px 0;
+        padding: 10px;
+        word-wrap: break-word;
+    }
+        .chatroom-messages div {
             background-color: #000;
             border-radius: 5px;
             margin: 5px 0;
@@ -78,6 +83,9 @@ permalink: /chatroom
             cursor: pointer;
             margin-left: 10px;
         }
+        #emojiButton {
+        background-color: #ADD8E6; /* Change emoji button color to blue in light mode */
+    }
     </style>
 </head>
 <body>
@@ -144,9 +152,9 @@ permalink: /chatroom
                 input.style.color = '#FFFFFF';
                 button.style.backgroundColor = '#301934';
                 button.style.color = '#FFFFFF';
+    }
                 toggleButton.textContent = 'Light Mode';
             }
-        }
         // Function for opening an emoji picker
         function selectEmoji() {
             // Use the "emoji-button" library to create an emoji picker
