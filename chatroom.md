@@ -21,7 +21,7 @@ permalink: /chatroom
         }
         .chatroom {
             width: 700px;
-            height: 350px;
+            height: 600px;
             background-color: #000;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -35,8 +35,8 @@ permalink: /chatroom
             border-bottom: 1px solid #000;
         }
         .chatroom-messages {
-            max-height: 180px;
-            min-height: 180px;
+            max-height: 430px;
+            min-height: 430px;
             padding: 8px;
             overflow-y: auto;
             background-color: #000;
