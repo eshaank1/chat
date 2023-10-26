@@ -38,14 +38,14 @@ permalink: /chatroom
             padding: 8px;
             overflow-y: auto;
             background-color: #000;
-            scrollbar-width: thin; /* for Firefox */
-            scrollbar-color: #301934 #000; /* for Firefox */
+            scrollbar-width: thin;
+            scrollbar-color: #301934 #000;
         }
         .chatroom-messages::-webkit-scrollbar {
-            width: 8px; /* for Chrome, Safari, and Opera */
+            width: 8px;
         }
         .chatroom-messages::-webkit-scrollbar-thumb {
-            background-color: #301934; /* for Chrome, Safari, and Opera */
+            background-color: #301934; 
         }
         .chatroom-messages div {
         background-color: #FFF; /* Change background color for sent messages in light mode */
