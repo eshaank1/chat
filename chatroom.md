@@ -40,7 +40,7 @@ permalink: /chatroom
             background-color: #000;
             scrollbar-width: thin;
             scrollbar-color: #301934 #000;
-        }
+        } /* Scrollbar inside the chatroom so user can review past message */
         .chatroom-messages::-webkit-scrollbar {
             width: 8px;
         }
@@ -111,7 +111,7 @@ permalink: /chatroom
                 event.preventDefault();
                 document.getElementById("myBtn").click();
             }
-        });
+        }); // This let user click enter to send the message
         function sendMessage() {
             const userInput = document.getElementById('user-input');
             const message = userInput.value.trim();
