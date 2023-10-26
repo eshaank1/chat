@@ -152,9 +152,9 @@ permalink: /chatroom
                 input.style.color = '#FFFFFF';
                 button.style.backgroundColor = '#301934';
                 button.style.color = '#FFFFFF';
-    }
                 toggleButton.textContent = 'Light Mode';
             }
+        }
         // Function for opening an emoji picker
         function selectEmoji() {
             // Use the "emoji-button" library to create an emoji picker
