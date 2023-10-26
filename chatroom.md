@@ -21,7 +21,7 @@ permalink: /chatroom
         }
         .chatroom {
             width: 700px;
-            height: 500px;
+            height: 350px;
             background-color: #000;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -35,9 +35,9 @@ permalink: /chatroom
             border-bottom: 1px solid #000;
         }
         .chatroom-messages {
-            max-height: 360px;
-            min-height: 360px;
-            padding: 10px;
+            max-height: 180px;
+            min-height: 180px;
+            padding: 8px;
             overflow-y: auto;
             background-color: #000;
             scrollbar-width: thin; /* for Firefox */
@@ -87,7 +87,7 @@ permalink: /chatroom
             <button id="toggleModeButton" onclick="toggleMode()">Toggle Mode</button>
         </div>
         <div class="chatroom-messages" id="chatroom-messages">
-            <!-- Messages will be displayed here -->
+            <!-- Messages displayed here -->
         </div>
         <div class="chatroom-input">
             <input type="text" id="user-input" placeholder="Type your message...">
@@ -126,12 +126,12 @@ permalink: /chatroom
             if (body.classList.contains('dark-mode')) {
                 body.classList.remove('dark-mode');
                 chatroom.style.backgroundColor = '#FFF'; // Light mode background color
-                chatroomHeader.style.backgroundColor = '#301934';
-                chatroomHeader.style.color = '#000';
+                chatroomHeader.style.backgroundColor = '#ADD8E6';
+                chatroomHeader.style.color = '#ADD8E6';
                 chatroomMessages.style.backgroundColor = '#FFF';
-                input.style.backgroundColor = '#301934';
+                input.style.backgroundColor = '#ADD8E6';
                 input.style.color = '#FFFFFF';
-                button.style.backgroundColor = '#301934';
+                button.style.backgroundColor = '#ADD8E6';
                 button.style.color = '#FFFFFF';
                 toggleButton.textContent = 'Dark Mode';
             } else {
