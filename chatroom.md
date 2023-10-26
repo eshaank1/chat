@@ -38,14 +38,14 @@ permalink: /chatroom
             padding: 8px;
             overflow-y: auto;
             background-color: #000;
-            scrollbar-width: thin;
-            scrollbar-color: #301934 #000;
-        } /* Scrollbar inside the chatroom so user can review past message */
+            scrollbar-width: thin; /* for Firefox */
+            scrollbar-color: #301934 #000; /* for Firefox */
+        }
         .chatroom-messages::-webkit-scrollbar {
-            width: 8px;
+            width: 8px; /* for Chrome, Safari, and Opera */
         }
         .chatroom-messages::-webkit-scrollbar-thumb {
-            background-color: #301934; 
+            background-color: #301934; /* for Chrome, Safari, and Opera */
         }
         .chatroom-messages div {
         background-color: #FFF; /* Change background color for sent messages in light mode */
@@ -84,7 +84,7 @@ permalink: /chatroom
             margin-left: 10px;
         }
         #emojiButton {
-        background-color: #ADD8E6; /* Change emoji button color to blue in light mode */
+        background-color: #301934; /* Change emoji button color to blue in light mode */
     }
     </style>
 </head>
@@ -111,7 +111,7 @@ permalink: /chatroom
                 event.preventDefault();
                 document.getElementById("myBtn").click();
             }
-        }); // This let user click enter to send the message
+        });
         function sendMessage() {
             const userInput = document.getElementById('user-input');
             const message = userInput.value.trim();
@@ -130,6 +130,7 @@ permalink: /chatroom
             const chatroomMessages = document.querySelector('.chatroom-messages');
             const input = document.querySelector('input[type="text"]');
             const button = document.querySelector('button#myBtn');
+            const button2 = document.querySelector('button#emojiButton');
             const toggleButton = document.querySelector('#toggleModeButton');
             if (body.classList.contains('dark-mode')) {
                 body.classList.remove('dark-mode');
@@ -141,7 +142,11 @@ permalink: /chatroom
                 input.style.color = '#FFFFFF';
                 button.style.backgroundColor = '#ADD8E6';
                 button.style.color = '#FFFFFF';
-                toggleButton.textContent = 'Dark Mode';
+                button2.style.backgroundColor = '#ADD8E6';
+                button2.style.color = '#FFFFFF';
+                toggleButton.style.backgroundcolor = '#ADD8E6';
+                toggleButton.style.color = '#FFFFFF';
+                toggleButton.textContent = 'Light Mode';
             } else {
                 body.classList.add('dark-mode');
                 chatroom.style.backgroundColor = '#000'; // Dark mode background color
@@ -152,7 +157,11 @@ permalink: /chatroom
                 input.style.color = '#FFFFFF';
                 button.style.backgroundColor = '#301934';
                 button.style.color = '#FFFFFF';
-                toggleButton.textContent = 'Light Mode';
+                button2.style.backgroundColor = '#301934';
+                button2.style.color = '#FFFFFF';
+                toggleButton.style.backgroundcolor = '#301934';
+                toggleButton.style.color = '#FFFFFF';
+                toggleButton.textContent = 'Dark Mode';
             }
         }
         // Function for opening an emoji picker
