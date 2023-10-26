@@ -123,7 +123,6 @@ permalink: /chatroom
             const input = document.querySelector('input[type="text"]');
             const button = document.querySelector('button#myBtn');
             const toggleButton = document.querySelector('#toggleModeButton');
-
             if (body.classList.contains('dark-mode')) {
                 body.classList.remove('dark-mode');
                 chatroom.style.backgroundColor = '#FFF'; // Light mode background color
