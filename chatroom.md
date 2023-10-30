@@ -106,6 +106,10 @@ permalink: /chatroom
                 messageElement.textContent = message;
                 // Append the message to the chat box
                 chatBox.appendChild(messageElement);
+                document.getElementById("message").value = "";
+                var scrollDiv = $('.chatroom-messages');
+                var height = scrollDiv[0].scrollHeight;
+                scrollDiv.scrollTop(height);
                 // Send the message to the backend
                 fetch(backendUrl, {
                     method: "POST",
