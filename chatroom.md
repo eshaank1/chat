@@ -129,6 +129,9 @@ permalink: /chatroom
                 event.preventDefault();
                 sendMessage();
                 document.getElementById("message").value = "";
+                var scrollDiv = $('.chatroom-messages');
+                var height = scrollDiv[0].scrollHeight;
+                scrollDiv.scrollTop(height);
             }
         }
         // Function to periodically retrieve and display chat messages
