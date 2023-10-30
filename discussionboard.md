@@ -7,7 +7,6 @@ permalink: /discussionboard
 
 ## Discussion Board
 
-%%html
 <html>
 <head>
     <title>Discussion Board</title>
@@ -17,14 +16,15 @@ permalink: /discussionboard
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-        #discussion-list {
-            list-style-type: none;
-            padding: 0;
-        }
-        .discussion-item {
+        .discussion {
             border: 1px solid #ccc;
             padding: 10px;
             margin: 10px 0;
+        }
+        .comment {
+            border: 1px solid #eee;
+            padding: 5px;
+            margin: 5px 0;
         }
     </style>
 </head>
@@ -38,8 +38,7 @@ permalink: /discussionboard
     </form>
     <!-- List of discussions -->
     <h2>Discussions</h2>
-    <ul id="discussion-list"></ul>
-    <!-- JavaScript to interact with the API -->
+    <div id="discussion-list"></div>
     <script>
         // Function to fetch and display discussions
         function fetchDiscussions() {
@@ -49,29 +48,132 @@ permalink: /discussionboard
                     const discussionList = document.getElementById('discussion-list');
                     discussionList.innerHTML = '';
                     data.forEach(discussion => {
-                        const item = document.createElement('li');
-                        item.className = 'discussion-item';
-                        item.innerHTML = discussion.title;
-                        discussionList.appendChild(item);
+                        // Create a discussion container
+                        const discussionDiv = document.createElement('div');
+                        discussionDiv.className = 'discussion';
+                        // Add the discussion title
+                        const title = document.createElement('h3');
+                        title.innerText = discussion.title;
+                        discussionDiv.appendChild(title);
+                        // Add a form for creating a post
+                        const postForm = document.createElement('form');
+                        postForm.className = 'create-post-form';
+                        postForm.innerHTML = `
+                            <input type="text" placeholder="New Post">
+                            <button type="submit">Post</button>
+                        `;
+                        // Add the post form to the discussion container
+                        discussionDiv.appendChild(postForm);
+                        // Add an empty div to display posts
+                        const postContainer = document.createElement('div');
+                        postContainer.className = 'post-container';
+                        discussionDiv.appendChild(postContainer);
+                        // Event listener to create a new post
+                        postForm.addEventListener('submit', function (e) {
+                            e.preventDefault();
+                            const newPostInput = postForm.querySelector('input');
+                            const newPost = newPostInput.value;
+                            if (newPost) {
+                                // Call the create post API and then refresh the discussion
+                                createPost(discussion.title, newPost);
+                                fetchDiscussions();
+                                newPostInput.value = '';
+                            }
+                        });
+                        // Append the discussion container to the list
+                        discussionList.appendChild(discussionDiv);
+                        // Fetch and display posts for this discussion
+                        fetchPosts(discussion.title, postContainer);
                     });
                 });
         }
-        // Function to create a new discussion
-        document.getElementById('create-discussion-form').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const discussionTitle = document.getElementById('discussion-title').value;
-            fetch('/discussions', {
+        // Function to create a new post
+        function createPost(discussionTitle, content) {
+            fetch(`/discussions?title=${discussionTitle}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ 'title': discussionTitle }),
-            })
-            .then(() => {
-                fetchDiscussions();  // Refresh the discussion list after creating a new discussion
-                document.getElementById('discussion-title').value = '';
+                body: JSON.stringify({ 'content': content }),
             });
-        });
+        }
+        // Function to fetch and display posts for a discussion
+        function fetchPosts(discussionTitle, postContainer) {
+            fetch(`/discussions?title=${discussionTitle}`, { method: 'GET' })
+                .then(response => response.json())
+                .then(data => {
+                    const posts = data[0].posts;
+                    postContainer.innerHTML = '';
+                    posts.forEach(post => {
+                        // Create a post container
+                        const postDiv = document.createElement('div');
+                        postDiv.className = 'post';
+                        // Add the post content
+                        const content = document.createElement('p');
+                        content.innerText = post.content;
+                        postDiv.appendChild(content);
+                        // Add a form for creating a comment
+                        const commentForm = document.createElement('form');
+                        commentForm.className = 'create-comment-form';
+                        commentForm.innerHTML = `
+                            <input type="text" placeholder="Leave a Comment">
+                            <button type="submit">Comment</button>
+                        `;
+                        // Add the comment form to the post container
+                        postDiv.appendChild(commentForm);
+                        // Add an empty div to display comments
+                        const commentContainer = document.createElement('div');
+                        commentContainer.className = 'comment-container';
+                        postDiv.appendChild(commentContainer);
+                        // Event listener to create a new comment
+                        commentForm.addEventListener('submit', function (e) {
+                            e.preventDefault();
+                            const newCommentInput = commentForm.querySelector('input');
+                            const newComment = newCommentInput.value;
+                            if (newComment) {
+                                // Call the create comment API and then refresh the comments
+                                createComment(discussionTitle, post.id, newComment);
+                                fetchComments(discussionTitle, post.id, commentContainer);
+                                newCommentInput.value = '';
+                            }
+                        });
+                        // Append the post container to the post container
+                        postContainer.appendChild(postDiv);
+                        // Fetch and display comments for this post
+                        fetchComments(discussionTitle, post.id, commentContainer);
+                    });
+                });
+        }
+        // Function to create a new comment
+        function createComment(discussionTitle, postId, content) {
+            fetch(`/discussions/${discussionTitle}/posts/${postId}/comments`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 'content': content }),
+            });
+        }
+        // Function to fetch and display comments for a post
+        function fetchComments(discussionTitle, postId, commentContainer) {
+            fetch(`/discussions/${discussionTitle}/posts/${postId}/comments`, { method: 'GET' })
+                .then(response => response.json())
+                .then(data => {
+                    const comments = data.comments;
+                    commentContainer.innerHTML = '';
+                    comments.forEach(comment => {
+                        // Create a comment container
+                        const commentDiv = document.createElement('div');
+                        commentDiv.className = 'comment';
+                        // Add the comment content
+                        const content = document.createElement('p');
+                        content.innerText = comment.content;
+                        commentDiv.appendChild(content);
+                        // Append the comment container to the comment container
+                        commentContainer.appendChild(commentDiv);
+                    });
+                });
+        }
         // Initial fetch of discussions
         fetchDiscussions();
     </script>
