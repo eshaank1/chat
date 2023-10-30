@@ -128,6 +128,7 @@ permalink: /chatroom
             if (event.key === "Enter") {
                 event.preventDefault();
                 sendMessage();
+                document.getElementById("message").value = "";
             }
         }
         // Function to periodically retrieve and display chat messages
