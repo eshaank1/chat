@@ -120,6 +120,7 @@ permalink: /chatroom
                 const messageElement = document.createElement('div');
                 messageElement.textContent = message;
                 chatroomMessages.appendChild(messageElement);
+                chatroomMessages.scrollTop = chatroomMessages.scrollHeight;
                 userInput.value = '';
             }
         }
