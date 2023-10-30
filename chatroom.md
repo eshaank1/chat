@@ -97,7 +97,7 @@ permalink: /chatroom
     <script>
         const chatBox = document.querySelector(".chatroom-messages");
         const messageInput = document.getElementById("message");
-        const backendUrl = "http://127.0.0.1:8987/api/chats/create";
+        const backendUrl = "https://chat.stu.nighthawkcodingsociety.com/api/chats/create";
         function sendMessage() {
             const message = messageInput.value.trim();
             if (message !== '') {
@@ -134,7 +134,7 @@ permalink: /chatroom
         // Function to periodically retrieve and display chat messages
         function displayChat() {
             // Fetch chat messages from the backend
-            fetch("http://127.0.0.1:8987/api/chats/read")
+            fetch("https://chat.stu.nighthawkcodingsociety.com/api/chats/read")
                 .then((response) => response.json())
                 .then((data) => {
                     // Clear the chat box
