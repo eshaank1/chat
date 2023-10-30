@@ -8,81 +8,94 @@ permalink: /chatroom
 <html>
 
 <head>
-    <title>Chatroom</title>
-    <link rel="stylesheet" href="/path/to/your/css/styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-color: #301934;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
         }
-        h1 {
+        .chatroom {
+            width: 700px;
+            height: 600px;
+            background-color: #000;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .chatroom-header {
+            background-color: #301934;
+            color: #000;
             text-align: center;
+            padding: 10px;
+            border-bottom: 1px solid #301934;
         }
-        #chat-container {
-            width: 80%;
-            max-width: 800px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #333; /* Darker background color */
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        .chatroom-messages {
+            max-height: 430px;
+            min-height: 430px;
+            padding: 8px;
+            overflow-y: auto;
+            background-color: #000;
+            scrollbar-width: thin; /* for Firefox */
+            scrollbar-color: #301934 #000; /* for Firefox */
         }
-        #chat-box {
-            width: 100%;
-            min-height: 400px;
-            max-height: 400px; /* Set a maximum height */
-            overflow-y: scroll; /* Add scrollbars if needed */
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            padding: 20px;
-            background-color: #444; /* Even darker background color */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        .chatroom-messages::-webkit-scrollbar {
+            width: 8px; /* for Chrome, Safari, and Opera */
         }
-        #message-container {
-            display: flex;
-            align-items: center;
+        .chatroom-messages::-webkit-scrollbar-thumb {
+            background-color: #301934; /* for Chrome, Safari, and Opera */
         }
-        #message {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid #ccc;
+        .chatroom-messages div {
+            background-color: #000;
             border-radius: 5px;
-            font-size: 16px;
-            background-color: #333; /* Darker background color */
-            color: #fff; /* White text color */
+            margin: 5px 0;
+            padding: 10px;
+            word-wrap: break-word;
         }
-        #send {
-            background-color: #007BFF;
-            color: #fff;
+        .chatroom-input {
+            padding: 10px;
+            display: flex;
+            border-top: 1px solid #FFFFFF;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
             border: none;
             border-radius: 5px;
-            padding: 12px 20px;
+            background-color: #301934;
+            color: #FFFFFF;
+        }
+        button {
+            background-color: #301934;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
             cursor: pointer;
+            margin-left: 10px;
         }
     </style>
 </head>
 
 <body>
-    <h1>Chatroom</h1>
-    <div id="chat-container">
-        <div id="chat-box">
+    <div class="chatroom">
+        <div class="chatroom-header">
+            <h1>Chatroom</h1>
+        </div>
+        <div class="chatroom-messages">
             <!-- Messages will be displayed here -->
         </div>
-        <div id="message-container">
+        <div class="chatroom-input">
             <input type="text" id="message" placeholder="Type your message" onkeypress="handleKeyPress(event)">
             <button id="send" onclick="sendMessage()">Send</button>
         </div>
     </div>
     <!-- Script to send and receive messages -->
     <script>
-        const chatBox = document.getElementById("chat-box");
+        const chatBox = document.querySelector(".chatroom-messages");
         const messageInput = document.getElementById("message");
         const backendUrl = "http://127.0.0.1:8987/api/chats/create";
         function sendMessage() {
