@@ -151,7 +151,7 @@ permalink: /chatroom
         }
         // Retrieve and display chat messages initially and every few seconds
         displayChat();
-        setInterval(displayChat, 5000); // Update the chat every 5 seconds
+        setInterval(displayChat, 2000); // Update the chat every 5 seconds
     </script>
 </body>
 
