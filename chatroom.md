@@ -97,7 +97,7 @@ permalink: /chatroom
     <script>
         const chatBox = document.querySelector(".chatroom-messages");
         const messageInput = document.getElementById("message");
-        const backendUrl = "https://github.com/eshaank1/chat-backend/blob/main/api/chat/create";
+        const backendUrl = "https://chat.stu.nighthawkcodingsociety.com/api/chats/create";
         function sendMessage() {
             const message = messageInput.value.trim();
             if (message !== '') {
