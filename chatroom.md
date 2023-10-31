@@ -94,74 +94,76 @@ permalink: /chatroom
         </div>
     </div>
     <!-- Script to send and receive messages -->
-    <script>
-        const chatBox = document.querySelector(".chatroom-messages");
-        const messageInput = document.getElementById("message");
-        const backendUrl = "https://chat.stu.nighthawkcodingsociety.com";
-        function sendMessage() {
-            const message = messageInput.value.trim();
-            if (message !== '') {
-                // Create a new message element
-                const messageElement = document.createElement("div");
-                const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                messageElement.textContent = `[${timestamp}] ${message}`;
-                // Append the message to the chat box
-                chatBox.appendChild(messageElement);
-                document.getElementById("message").value = "";
-                var scrollDiv = $('.chatroom-messages');
-                var height = scrollDiv[0].scrollHeight;
-                scrollDiv.scrollTop(height);
-                // Send the message to the backend
-                fetch(backendUrl, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ message: message }),
-                })
-                    .then((response) => {
-                        if (response.status === 200) {
-                            messageInput.value = ''; // Clear the input field
-                        }
-                    })
-                    .catch((error) => {
-                        console.error("Failed to send message to the backend:", error);
-                    });
-            }
-        }
-        function handleKeyPress(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                sendMessage();
-                document.getElementById("message").value = "";
-                var scrollDiv = $('.chatroom-messages');
-                var height = scrollDiv[0].scrollHeight;
-                scrollDiv.scrollTop(height);
-            }
-        }
-        // Function to periodically retrieve and display chat messages
-        function displayChat() {
-            // Fetch chat messages from the backend
-            fetch("https://chat.stu.nighthawkcodingsociety.com/api/chats/read")
-                .then((response) => response.json())
-                .then((data) => {
-                    // Clear the chat box
-                    chatBox.innerHTML = "";
-                    // Display each message in the chat box
-                    data.forEach((message) => {
-                        const messageElement = document.createElement("div");
-                        messageElement.textContent = message.message;
-                        chatBox.appendChild(messageElement);
-                    });
-                })
-                .catch((error) => {
-                    console.error("Failed to retrieve chat messages:", error);
-                });
-        }
-        // Retrieve and display chat messages initially and every few seconds
-        displayChat();
-        setInterval(displayChat, 2000); // Update the chat every 5 seconds
-    </script>
-</body>
+    
+<script>
+    const chatBox = document.querySelector(".chatroom-messages");
+    const messageInput = document.getElementById("message");
+    const backendUrl = "http://127.0.0.1:8987/api/chats"; // Base URL for chat API
 
-</html>
+    // Function to send a message to the server
+    function sendMessage() {
+        const message = messageInput.value.trim();
+        if (message !== '') {
+            // Create a new message element
+            const messageElement = document.createElement("div");
+            const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            messageElement.textContent = `[${timestamp}] ${message}`;
+            // Append the message to the chat box
+            chatBox.appendChild(messageElement);
+            document.getElementById("message").value = "";
+            var scrollDiv = chatBox;
+            var height = scrollDiv.scrollHeight;
+            scrollDiv.scrollTop = height;
+
+            // Send the message to the server using the /create endpoint
+            fetch(backendUrl + '/create', { // Use the /create endpoint for sending messages
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ message: message }),
+            })
+            .then((response) => {
+                if (response.status === 200) {
+                    messageInput.value = ''; // Clear the input field
+                }
+            })
+            .catch((error) => {
+                console.error("Failed to send message to the backend:", error);
+            });
+        }
+    }
+
+    function handleKeyPress(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            sendMessage();
+        }
+    }
+
+    // Function to periodically retrieve and display chat messages
+    function displayChat() {
+        // Fetch chat messages from the server using the /read endpoint
+        fetch(backendUrl + '/read', { // Use the /read endpoint to retrieve messages
+            method: "GET",
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            // Clear the chat box before displaying new messages
+            chatBox.innerHTML = "";
+            // Display each new message in the chat box
+            data.forEach((message) => {
+                const messageElement = document.createElement("div");
+                messageElement.textContent = message.message;
+                chatBox.appendChild(messageElement);
+            });
+        })
+        .catch((error) => {
+            console.error("Failed to retrieve chat messages:", error);
+        });
+    }
+
+    // Retrieve and display chat messages initially and every few seconds
+    displayChat();
+    setInterval(displayChat, 2000); // Update the chat every 2 seconds
+</script>
