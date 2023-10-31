@@ -103,7 +103,8 @@ permalink: /chatroom
             if (message !== '') {
                 // Create a new message element
                 const messageElement = document.createElement("div");
-                messageElement.textContent = message;
+                const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                messageElement.textContent = `[${timestamp}] ${message}`;
                 // Append the message to the chat box
                 chatBox.appendChild(messageElement);
                 document.getElementById("message").value = "";
