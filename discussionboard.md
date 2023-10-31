@@ -37,7 +37,7 @@ permalink: /discussionboard
     <h2>Create a New Discussion</h2>
     <form id="create-discussion-form">
         <input type="text" id="discussion-title" placeholder="Discussion Title">
-        <button type="submit">Create</button>
+        <button type="submit">Submit</button>
     </form>
     <!-- List of discussions -->
     <div id="discussion-list"></div>
@@ -92,7 +92,7 @@ permalink: /discussionboard
         }
         // Function to create a new post
         function createPost(discussionTitle, content) {
-            fetch(`/discussions?title=${discussionTitle}`, {
+            fetch(`/discussions/${discussionTitle}/posts`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -157,26 +157,6 @@ permalink: /discussionboard
                 },
                 body: JSON.stringify({ 'content': content }),
             });
-        }
-        // Function to fetch and display comments for a post
-        function fetchComments(discussionTitle, postId, commentContainer) {
-            fetch(`/discussions/${discussionTitle}/posts/${postId}/comments`, { method: 'GET' })
-                .then(response => response.json())
-                .then(data => {
-                    const comments = data.comments;
-                    commentContainer.innerHTML = '';
-                    comments.forEach(comment => {
-                        // Create a comment container
-                        const commentDiv = document.createElement('div');
-                        commentDiv.className = 'comment';
-                        // Add the comment content
-                        const content = document.createElement('p');
-                        content.innerText = comment.content;
-                        commentDiv.appendChild(content);
-                        // Append the comment container to the comment container
-                        commentContainer.appendChild(commentDiv);
-                    });
-                });
         }
         // Initial fetch of discussions
         fetchDiscussions();
