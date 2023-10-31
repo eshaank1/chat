@@ -5,6 +5,7 @@ title: Discussion Board
 permalink: /discussionboard
 ---
 
+<!DOCTYPE html>
 <html>
 <head>
     <title>Discussion Board</title>
@@ -44,7 +45,7 @@ permalink: /discussionboard
     <script>
         // Function to fetch and display discussions
         function fetchDiscussions() {
-            fetch('/discussions', { method: 'GET' })
+            fetch('/api/discussions/list', { method: 'GET' })
                 .then(response => response.json())
                 .then(data => {
                     const discussionList = document.getElementById('discussion-list');
@@ -92,7 +93,7 @@ permalink: /discussionboard
         }
         // Function to create a new post
         function createPost(discussionTitle, content) {
-            fetch(`/discussions/${discussionTitle}/posts`, {
+            fetch(`/api/discussions/${discussionTitle}/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -102,7 +103,7 @@ permalink: /discussionboard
         }
         // Function to fetch and display posts for a discussion
         function fetchPosts(discussionTitle, postContainer) {
-            fetch(`/discussions/${discussionTitle}/posts`, { method: 'GET' })
+            fetch(`/api/discussions/${discussionTitle}/list`, { method: 'GET' })
                 .then(response => response.json())
                 .then(data => {
                     const posts = data;
@@ -150,13 +151,33 @@ permalink: /discussionboard
         }
         // Function to create a new comment
         function createComment(discussionTitle, postId, content) {
-            fetch(`/discussions/${discussionTitle}/posts/${postId}/comments`, {
+            fetch(`/api/discussions/${discussionTitle}/${postId}/comment`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ 'content': content }),
             });
+        }
+        // Function to fetch and display comments for a post
+        function fetchComments(discussionTitle, postId, commentContainer) {
+            fetch(`/api/discussions/${discussionTitle}/${postId}/comment`, { method: 'GET' })
+                .then(response => response.json())
+                .then(data => {
+                    const comments = data.comments;
+                    commentContainer.innerHTML = '';
+                    comments.forEach(comment => {
+                        // Create a comment container
+                        const commentDiv = document.createElement('div');
+                        commentDiv.className = 'comment';
+                        // Add the comment content
+                        const content = document.createElement('p');
+                        content.innerText = comment.content;
+                        commentDiv.appendChild(content);
+                        // Append the comment container to the comment container
+                        commentContainer.appendChild(commentDiv);
+                    });
+                });
         }
         // Initial fetch of discussions
         fetchDiscussions();
