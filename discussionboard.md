@@ -102,10 +102,10 @@ permalink: /discussionboard
         }
         // Function to fetch and display posts for a discussion
         function fetchPosts(discussionTitle, postContainer) {
-            fetch(`/discussions?title=${discussionTitle}`, { method: 'GET' })
+            fetch(`/discussions/${discussionTitle}/posts`, { method: 'GET' })
                 .then(response => response.json())
                 .then(data => {
-                    const posts = data[0].posts;
+                    const posts = data;
                     postContainer.innerHTML = '';
                     posts.forEach(post => {
                         // Create a post container
@@ -134,8 +134,8 @@ permalink: /discussionboard
                             const newComment = newCommentInput.value;
                             if (newComment) {
                                 // Call the create comment API and then refresh the comments
-                                createComment(discussionTitle, post.id, newComment);
-                                fetchComments(discussionTitle, post.id, commentContainer);
+                                createComment(discussionTitle, post.post_id, newComment);
+                                fetchComments(discussionTitle, post.post_id, commentContainer);
                                 newCommentInput.value = '';
                             }
                         });
@@ -144,7 +144,7 @@ permalink: /discussionboard
                         // Append the comment container to the post container
                         postContainer.appendChild(commentContainer);
                         // Fetch and display comments for this post
-                        fetchComments(discussionTitle, post.id, commentContainer);
+                        fetchComments(discussionTitle, post.post_id, commentContainer);
                     });
                 });
         }
@@ -169,12 +169,10 @@ permalink: /discussionboard
                         // Create a comment container
                         const commentDiv = document.createElement('div');
                         commentDiv.className = 'comment';
-
                         // Add the comment content
                         const content = document.createElement('p');
                         content.innerText = comment.content;
                         commentDiv.appendChild(content);
-
                         // Append the comment container to the comment container
                         commentContainer.appendChild(commentDiv);
                     });
