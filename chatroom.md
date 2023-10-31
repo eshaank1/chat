@@ -98,7 +98,7 @@ permalink: /chatroom
 <script>
     const chatBox = document.querySelector(".chatroom-messages");
     const messageInput = document.getElementById("message");
-    const backendUrl = "https://chat.stu.nighthawkcodingsociety.com/api/chats"; // Base URL for chat API
+    const backendUrl = "https://chat.stu.nighthawkcodingsociety.com"; // Base URL for chat API
 
     // Function to send a message to the server
     function sendMessage() {
