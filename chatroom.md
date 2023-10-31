@@ -121,7 +121,7 @@ permalink: /chatroom
                 })
                     .then((response) => {
                         if (response.status === 200) {
-                            messageInput.value = ''; // Clear the input field
+                            messageInput.value = 'test'; // Clear the input field
                         }
                     })
                     .catch((error) => {
