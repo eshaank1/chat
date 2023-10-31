@@ -6,180 +6,91 @@ permalink: /discussionboard
 ---
 
 <html>
-<head>
-    <title>Discussion Board</title>
-    <style>
-        /* Basic styling for the discussion board */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+<table>
+  <thead>
+  <tr>
+    <th>Joke</th>
+    <th>HaHa</th>
+    <th>Boohoo</th>
+  </tr>
+  </thead>
+  <tbody id="result">
+    <!-- javascript generated data -->
+  </tbody>
+</table>
+<script>
+// prepare HTML defined "result" container for new output
+const resultContainer = document.getElementById("result");
+// keys for joke reactions
+const HAHA = "haha";
+const BOOHOO = "boohoo";
+// prepare fetch urls
+const url = "https://flask.nighthawkcodingsociety.com/api/jokes";
+const like_url = url + "/like/";  // haha reaction
+const jeer_url = url + "/jeer/";  // boohoo reaction
+// prepare fetch GET options
+const options = {
+  method: 'GET', // *GET, POST, PUT, DELETE, etc.
+  mode: 'cors', // no-cors, *cors, same-origin
+  cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
+  credentials: 'omit', // include, *same-origin, omit
+  headers: {
+    'Content-Type': 'application/json'
+    // 'Content-Type': 'application/x-www-form-urlencoded',
+  },
+};
+// prepare fetch PUT options, clones with JS Spread Operator (...)
+const put_options = {...options, method: 'PUT'}; // clones and replaces method
+// fetch the API
+fetch(url, options)
+  // response is a RESTful "promise" on any successful fetch
+  .then(response => {
+    // check for response errors
+    if (response.status !== 200) {
+        error('GET API response failure: ' + response.status);
+        return;
+    }
+    // valid response will have JSON data
+    response.json().then(data => {
+        console.log(data);
+        for (const row of data) {
+          // make "tr element" for each "row of data"
+          const tr = document.createElement("tr");        
+          // td for joke cell
+          const joke = document.createElement("td");
+            joke.innerHTML = row.id + ". " + row.joke;  // add fetched data to innerHTML
+          // td for haha cell with onclick actions
+          const haha = document.createElement("td");
+            const haha_but = document.createElement('button');
+            haha_but.id = HAHA+row.id   // establishes a HAHA JS id for cell
+            haha_but.innerHTML = row.haha;  // add fetched "haha count" to innerHTML
+            haha_but.onclick = function () {
+              // onclick function call with "like parameters"
+              reaction(HAHA, like_url+row.id, haha_but.id);  
+            };
+            haha.appendChild(haha_but);  // add "haha button" to haha cell
+          // td for boohoo cell with onclick actions
+          const boohoo = document.createElement("td");
+            const boohoo_but = document.createElement('button');
+            boohoo_but.id = BOOHOO+row.id  // establishes a BOOHOO JS id for cell
+            boohoo_but.innerHTML = row.boohoo;  // add fetched "boohoo count" to innerHTML
+            boohoo_but.onclick = function () {
+              // onclick function call with "jeer parameters"
+              reaction(BOOHOO, jeer_url+row.id, boohoo_but.id);  
+            };
+            boohoo.appendChild(boohoo_but);  // add "boohoo button" to boohoo cell 
+          // this builds ALL td's (cells) into tr (row) element
+          tr.appendChild(joke);
+          tr.appendChild(haha);
+          tr.appendChild(boohoo);
+          // this adds all the tr (row) work above to the HTML "result" container
+          resultContainer.appendChild(tr);
         }
-        .discussion {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 10px 0;
-        }
-        .post {
-            border: 1px solid #eee;
-            padding: 10px;
-            margin: 10px 0;
-        }
-        .comment {
-            border: 1px solid #f0f0f0;
-            padding: 5px;
-            margin: 5px 0;
-        }
-    </style>
-</head>
-<body>
-    <h1>Discussion Board</h1>
-    <!-- Create a new discussion form -->
-    <h2>Create a New Discussion</h2>
-    <form id="create-discussion-form">
-        <input type="text" id="discussion-title" placeholder="Discussion Title">
-        <button type="submit">Submit</button>
-    </form>
-    <!-- List of discussions -->
-    <div id="discussion-list"></div>
-    <script>
-        // Function to fetch and display discussions
-        function fetchDiscussions() {
-            fetch('/api/discussions/list', { method: 'GET' })
-                .then(response => response.json())
-                .then(data => {
-                    const discussionList = document.getElementById('discussion-list');
-                    discussionList.innerHTML = '';
-                    data.forEach(discussion => {
-                        // Create a discussion container
-                        const discussionDiv = document.createElement('div');
-                        discussionDiv.className = 'discussion';
-                        // Add the discussion title
-                        const title = document.createElement('h3');
-                        title.innerText = discussion.title;
-                        discussionDiv.appendChild(title);
-                        // Add a form for creating a post
-                        const postForm = document.createElement('form');
-                        postForm.className = 'create-post-form';
-                        postForm.innerHTML = `
-                            <input type="text" placeholder="New Post">
-                            <button type="submit">Post</button>
-                        `;
-                        // Add the post form to the discussion container
-                        discussionDiv.appendChild(postForm);
-                        // Add an empty div to display posts
-                        const postContainer = document.createElement('div');
-                        postContainer.className = 'post-container';
-                        // Event listener to create a new post
-                        postForm.addEventListener('submit', function (e) {
-                            e.preventDefault();
-                            const newPostInput = postForm.querySelector('input');
-                            const newPost = newPostInput.value;
-                            if (newPost) {
-                                // Call the create post API and then refresh the discussion
-                                createPost(discussion.title, newPost);
-                                fetchDiscussions();
-                                newPostInput.value = '';
-                            }
-                        });
-                        // Append the post container to the discussion container
-                        discussionDiv.appendChild(postContainer);
-                        // Fetch and display posts for this discussion
-                        fetchPosts(discussion.title, postContainer);
-                        // Append the discussion container to the list
-                        discussionList.appendChild(discussionDiv);
-                    });
-                });
-        }
-        // Function to create a new post
-        function createPost(discussionTitle, content) {
-            fetch(`/api/discussions/${discussionTitle}/create`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 'content': content }),
-            });
-        }
-        // Function to fetch and display posts for a discussion
-        function fetchPosts(discussionTitle, postContainer) {
-            fetch(`/api/discussions/${discussionTitle}/list`, { method: 'GET' })
-                .then(response => response.json())
-                .then(data => {
-                    const posts = data;
-                    postContainer.innerHTML = '';
-                    posts.forEach(post => {
-                        // Create a post container
-                        const postDiv = document.createElement('div');
-                        postDiv.className = 'post';
-                        // Add the post content
-                        const content = document.createElement('p');
-                        content.innerText = post.content;
-                        postDiv.appendChild(content);
-                        // Add a form for creating a comment
-                        const commentForm = document.createElement('form');
-                        commentForm.className = 'create-comment-form';
-                        commentForm.innerHTML = `
-                            <input type="text" placeholder="Leave a Comment">
-                            <button type="submit">Comment</button>
-                        `;
-                        // Add the comment form to the post container
-                        postDiv.appendChild(commentForm);
-                        // Add an empty div to display comments
-                        const commentContainer = document.createElement('div');
-                        commentContainer.className = 'comment-container';
-                        // Event listener to create a new comment
-                        commentForm.addEventListener('submit', function (e) {
-                            e.preventDefault();
-                            const newCommentInput = commentForm.querySelector('input');
-                            const newComment = newCommentInput.value;
-                            if (newComment) {
-                                // Call the create comment API and then refresh the comments
-                                createComment(discussionTitle, post.post_id, newComment);
-                                fetchComments(discussionTitle, post.post_id, commentContainer);
-                                newCommentInput.value = '';
-                            }
-                        });
-                        // Append the post container to the post container
-                        postContainer.appendChild(postDiv);
-                        // Append the comment container to the post container
-                        postContainer.appendChild(commentContainer);
-                        // Fetch and display comments for this post
-                        fetchComments(discussionTitle, post.post_id, commentContainer);
-                    });
-                });
-        }
-        // Function to create a new comment
-        function createComment(discussionTitle, postId, content) {
-            fetch(`/api/discussions/${discussionTitle}/${postId}/comment`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 'content': content }),
-            });
-        }
-        // Function to fetch and display comments for a post
-        function fetchComments(discussionTitle, postId, commentContainer) {
-            fetch(`/api/discussions/${discussionTitle}/${postId}/comment`, { method: 'GET' })
-                .then(response => response.json())
-                .then(data => {
-                    const comments = data.comments;
-                    commentContainer.innerHTML = '';
-                    comments.forEach(comment => {
-                        // Create a comment container
-                        const commentDiv = document.createElement('div');
-                        commentDiv.className = 'comment';
-                        // Add the comment content
-                        const content = document.createElement('p');
-                        content.innerText = comment.content;
-                        commentDiv.appendChild(content);
-                        // Append the comment container to the comment container
-                        commentContainer.appendChild(commentDiv);
-                    });
-                });
-        }
-        // Initial fetch of discussions
-        fetchDiscussions();
-    </script>
-</body>
+    })
+})
+// catch fetch errors (ie Nginx ACCESS to server blocked)
+.catch(err => {
+  error(err + " " + url);
+});
+</script>
 </html>
