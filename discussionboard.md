@@ -55,7 +55,7 @@ fetch(url, options)
         console.log(data);
         for (const row of data) {
           // make "tr element" for each "row of data"
-          const tr = document.createElement("tr");        
+          const tr = document.createElement("tr");
           // td for joke cell
           const joke = document.createElement("td");
             joke.innerHTML = row.id + ". " + row.joke;  // add fetched data to innerHTML
@@ -78,7 +78,7 @@ fetch(url, options)
               // onclick function call with "jeer parameters"
               reaction(BOOHOO, jeer_url+row.id, boohoo_but.id);  
             };
-            boohoo.appendChild(boohoo_but);  // add "boohoo button" to boohoo cell 
+            boohoo.appendChild(boohoo_but);  // add "boohoo button" to boohoo cell
           // this builds ALL td's (cells) into tr (row) element
           tr.appendChild(joke);
           tr.appendChild(haha);
@@ -92,5 +92,44 @@ fetch(url, options)
 .catch(err => {
   error(err + " " + url);
 });
+// Reaction function to likes or jeers user actions
+function reaction(type, put_url, elemID) {
+  // fetch the API
+  fetch(put_url, put_options)
+  // response is a RESTful "promise" on any successful fetch
+  .then(response => {
+    // check for response errors
+    if (response.status !== 200) {
+        error("PUT API response failure: " + response.status)
+        return;  // api failure
+    }
+    // valid response will have JSON data
+    response.json().then(data => {
+        console.log(data);
+        // Likes or Jeers updated/incremented
+        if (type === HAHA) // like data element
+          document.getElementById(elemID).innerHTML = data.haha;  // fetched haha data assigned to haha Document Object Model (DOM)
+        else if (type === BOOHOO) // jeer data element
+          document.getElementById(elemID).innerHTML = data.boohoo;  // fetched boohoo data assigned to boohoo Document Object Model (DOM)
+        else
+          error("unknown type: " + type);  // should never occur
+    })
+  })
+  // catch fetch errors (ie Nginx ACCESS to server blocked)
+  .catch(err => {
+    error(err + " " + put_url);
+  });
+}
+// Something went wrong with actions or responses
+function error(err) {
+  // log as Error in console
+  console.error(err);
+  // append error to resultContainer
+  const tr = document.createElement("tr");
+  const td = document.createElement("td");
+  td.innerHTML = err;
+  tr.appendChild(td);
+  resultContainer.appendChild(tr);
+}
 </script>
 </html>
