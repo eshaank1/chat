@@ -5,7 +5,6 @@ title: Discussion Board
 permalink: /discussionboard
 ---
 
-<!DOCTYPE html>
 <html>
 <head>
     <title>Discussion Board</title>
