@@ -25,7 +25,7 @@ const resultContainer = document.getElementById("result");
 const HAHA = "haha";
 const BOOHOO = "boohoo";
 // prepare fetch urls
-const url = "https://flask.nighthawkcodingsociety.com/api/jokes";
+const url = "https://chat.stu.nighthawkcodingsociety.com/api/jokes";
 const like_url = url + "/like/";  // haha reaction
 const jeer_url = url + "/jeer/";  // boohoo reaction
 // prepare fetch GET options
