@@ -83,7 +83,7 @@ permalink: /chatroom
         <div class="chatroom-header">
             <h1>Chatroom</h1>
         </div>
-        <div class="chatroom-messages">
+        <div class="chatroom-messages" id="chatroom-messages">
             <!-- Messages will be displayed here -->
         </div>
         <div class="chatroom-input">
@@ -93,7 +93,7 @@ permalink: /chatroom
     </div>
     <!-- Script to send and receive messages -->
     <script>
-    const chatBox = document.querySelector(".chatroom-messages");
+    const chatBox = document.getElementById("chatroom-messages");
     const messageInput = document.getElementById("message");
     const backendUrl = "https://chat.stu.nighthawkcodingsociety.com/api/chats"; // Base URL for chat API
     let shouldScrollToBottom = true; // Flag to control auto-scrolling
