@@ -166,7 +166,7 @@ permalink: /chatroom
     }
     // Retrieve and display chat messages initially and every few seconds
     displayChat();
-    setInterval(displayChat, 500); // Update the chat every 2 seconds
+    setInterval(displayChat, 200); // Update the chat every 2 seconds
     // Scroll to the bottom of the chatbox initially
     scrollToBottom();
     </script>
