@@ -133,14 +133,12 @@ permalink: /discussionboard
             });
         }
     }
-
     function handleKeyPress(event) {
         if (event.key === "Enter") {
             event.preventDefault();
             sendMessage();
         }
     }
-
     // Function to periodically retrieve and display chat messages
     function displayChat() {
         // Fetch chat messages from the server using the /read endpoint
@@ -162,8 +160,8 @@ permalink: /discussionboard
             console.error("Failed to retrieve chat messages:", error);
         });
     }
-
     // Retrieve and display chat messages initially and every few seconds
     displayChat();
     setInterval(displayChat, 2000); // Update the chat every 2 seconds
 </script>
+</html>
