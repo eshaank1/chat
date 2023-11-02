@@ -101,38 +101,42 @@ permalink: /chatroom
     const backendUrl = "https://chat.stu.nighthawkcodingsociety.com/api/chats"; // Base URL for chat API
 
     // Function to send a message to the server
-    function sendMessage() {
-        const message = messageInput.value.trim();
-        if (message !== '') {
-            // Create a new message element
-            const messageElement = document.createElement("div");
-            const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            messageElement.textContent = `[${timestamp}] ${message}`;
-            // Append the message to the chat box
-            chatBox.appendChild(messageElement);
-            document.getElementById("message").value = "";
-            var scrollDiv = chatBox;
-            var height = scrollDiv.scrollHeight;
-            scrollDiv.scrollTop = height;
+// Function to send a message to the server
+function sendMessage() {
+    const message = messageInput.value.trim();
+    if (message !== '') {
+        const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const messageWithTimestamp = `[${timestamp}] ${message}`;
 
-            // Send the message to the server using the /create endpoint
-            fetch(backendUrl + '/create', { // Use the /create endpoint for sending messages
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ message: message }),
-            })
-            .then((response) => {
-                if (response.status === 200) {
-                    messageInput.value = ''; // Clear the input field
-                }
-            })
-            .catch((error) => {
-                console.error("Failed to send message to the backend:", error);
-            });
-        }
+        // Create a new message element
+        const messageElement = document.createElement("div");
+        messageElement.textContent = messageWithTimestamp;
+
+        // Append the message to the chat box
+        chatBox.appendChild(messageElement);
+        document.getElementById("message").value = "";
+        var scrollDiv = chatBox;
+        var height = scrollDiv.scrollHeight;
+        scrollDiv.scrollTop = height;
+
+        // Send the message to the server using the /create endpoint
+        fetch(backendUrl + '/create', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ message: messageWithTimestamp }), // Send the message with timestamp
+        })
+        .then((response) => {
+            if (response.status === 200) {
+                messageInput.value = ''; // Clear the input field
+            }
+        })
+        .catch((error) => {
+            console.error("Failed to send message to the backend:", error);
+        });
     }
+}
 
     function handleKeyPress(event) {
         if (event.key === "Enter") {
