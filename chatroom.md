@@ -137,6 +137,10 @@ permalink: /chatroom
             sendMessage();
         }
     }
+    // Function to scroll to the bottom of the chatbox
+    function scrollToBottom() {
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
     // Function to periodically retrieve and display chat messages
     function displayChat() {
         // Fetch chat messages from the server using the /read endpoint
@@ -153,6 +157,8 @@ permalink: /chatroom
                 messageElement.textContent = data[i].message;
                 chatBox.appendChild(messageElement);
             }
+            // Scroll to the bottom of the chatbox after loading messages
+            scrollToBottom();
         })
         .catch((error) => {
             console.error("Failed to retrieve chat messages:", error);
@@ -161,6 +167,8 @@ permalink: /chatroom
     // Retrieve and display chat messages initially and every few seconds
     displayChat();
     setInterval(displayChat, 2000); // Update the chat every 2 seconds
+    // Scroll to the bottom of the chatbox initially
+    scrollToBottom();
     </script>
     </body>
 </html>
