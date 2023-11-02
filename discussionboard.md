@@ -141,6 +141,7 @@ permalink: /discussionboard
     }
     // Function to periodically retrieve and display chat messages
     function displayChat() {
+                    alert("Hello! I am an alert box!!");
         // Fetch chat messages from the server using the /read endpoint
         fetch(backendUrl + '/read', { // Use the /read endpoint to retrieve messages
             method: "GET",
@@ -164,4 +165,3 @@ permalink: /discussionboard
     displayChat();
     setInterval(displayChat, 2000); // Update the chat every 2 seconds
 </script>
-</html>
