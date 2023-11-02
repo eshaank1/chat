@@ -114,6 +114,13 @@ function sendMessage() {
 
         // Append the message to the chat box
         chatBox.appendChild(messageElement);
+
+        // Ensure only the last 50 messages are displayed
+        const messages = chatBox.querySelectorAll("div");
+        if (messages.length > 50) {
+            chatBox.removeChild(messages[0]);
+        }
+
         document.getElementById("message").value = "";
         var scrollDiv = chatBox;
         var height = scrollDiv.scrollHeight;
@@ -138,36 +145,36 @@ function sendMessage() {
     }
 }
 
-    function handleKeyPress(event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            sendMessage();
+function handleKeyPress(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        sendMessage();
+    }
+}
+
+// Function to periodically retrieve and display chat messages
+function displayChat() {
+    // Fetch chat messages from the server using the /read endpoint
+    fetch(backendUrl + '/read', { // Use the /read endpoint to retrieve messages
+        method: "GET",
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        // Clear the chat box before displaying new messages
+        chatBox.innerHTML = "";
+        // Display each new message in the chat box in reverse order
+        for (let i = data.length - 1; i >= 0; i--) {
+            const messageElement = document.createElement("div");
+            messageElement.textContent = data[i].message;
+            chatBox.appendChild(messageElement);
         }
-    }
+    })
+    .catch((error) => {
+        console.error("Failed to retrieve chat messages:", error);
+    });
+}
 
-    // Function to periodically retrieve and display chat messages
-    function displayChat() {
-        // Fetch chat messages from the server using the /read endpoint
-        fetch(backendUrl + '/read', { // Use the /read endpoint to retrieve messages
-            method: "GET",
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            // Clear the chat box before displaying new messages
-            chatBox.innerHTML = "";
-            // Display each new message in the chat box
-            data.forEach((message) => {
-                const messageElement = document.createElement("div");
-                messageElement.textContent = message.message;
-                chatBox.appendChild(messageElement);
-            });
-        })
-        .catch((error) => {
-            console.error("Failed to retrieve chat messages:", error);
-        });
-    }
-
-    // Retrieve and display chat messages initially and every few seconds
-    displayChat();
-    setInterval(displayChat, 2000); // Update the chat every 2 seconds
+// Retrieve and display chat messages initially and every few seconds
+displayChat();
+setInterval(displayChat, 2000); // Update the chat every 2 seconds
 </script>
