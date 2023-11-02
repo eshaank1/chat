@@ -1,8 +1,8 @@
 ---
 comments: false
 layout: default
-title: Chatroom
-permalink: /chatroom
+title: Discussion Board
+permalink: /discussionboard
 ---
 
 <html>
