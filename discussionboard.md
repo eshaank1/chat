@@ -145,15 +145,19 @@ permalink: /discussionboard
         fetch(backendUrl + '/read', { // Use the /read endpoint to retrieve messages
             method: "GET",
         })
-        .then(response =>  {
+        .then((response) =>  {
+            if (response.status === 200) {
+               alert('Debug 3'); 
+            }
             alert('Debug 3'); 
         })
         .catch((error) => {
+            alert('Debug 4'); 
             console.error("Failed to retrieve chat messages:", error);
         });
 
     }
     // Retrieve and display chat messages initially and every few seconds
     displayChat();
-    setInterval(displayChat, 2000); // Update the chat every 2 seconds
+    //setInterval(displayChat, 2000); // Update the chat every 2 seconds
 </script>
