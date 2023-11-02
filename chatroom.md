@@ -90,12 +90,15 @@ permalink: /chatroom
             <input type="text" id="message" placeholder="Type your message" onkeypress="handleKeyPress(event)">
             <button id="send" onclick="sendMessage()">Send</button>
             <button id="toggleModeButton" onclick="toggleMode()">Toggle Mode</button>
+            <button id="moodCheck">Neutral Mood</button>
         </div>
     </div>
     <script>
         const chatBox = document.getElementById("chatroom-messages");
         const messageInput = document.getElementById("message");
         const backendUrl = "https://chat.stu.nighthawkcodingsociety.com/api/chats";
+        const badMood = ['trash', 'bad', 'sucks', 'suck', 'stupid', 'jerk'];
+        const goodMood = ['like', 'good', 'happy', 'amazing', 'great', 'haha'];
         function sendMessage() {
             const message = messageInput.value.trim();
             if (message !== '') {
@@ -152,19 +155,44 @@ permalink: /chatroom
                     messageElement.textContent = data[i].message;
                     chatBox.appendChild(messageElement);
                 }
+                var badMoodCount = 0;
+                var goodMoodCount = 0;
+                for (let i = data.length - 1; i >= 0; i--) {
+                    for (let j = 0; j < badMood.length; j++) {
+                       if(data[i].message.includes(badMood[j])) {
+                          badMoodCount++;
+                       }
+                    }
+                    for (let j = 0; j < goodMood.length; j++) {
+                       if(data[i].message.includes(goodMood[j])) {
+                          goodMoodCount++;
+                       }
+                    }
+                    if (badMoodCount > goodMoodCount) {
+                      const moodCheck = document.getElementById('moodCheck');
+                      moodCheck.textContent = 'Bad Mood';
+                    } else if (badMoodCount < goodMoodCount) {
+                      const moodCheck = document.getElementById('moodCheck');
+                      moodCheck.textContent = 'Good Mood';
+                    } else {
+                      const moodCheck = document.getElementById('moodCheck');
+                      moodCheck.textContent = 'Neutral Mood';
+                    }
+                }
             })
             .catch((error) => {
                 console.error("Failed to retrieve chat messages:", error);
             });
         }
-            function toggleMode() {
-                const body = document.body;
-                const chatroom = document.querySelector('.chatroom');
-                const chatroomHeader = document.querySelector('.chatroom-header');
-                const chatroomMessages = document.querySelector('.chatroom-messages');
-                const input = document.querySelector('input[type="text"]');
-                const button = document.querySelector('button#send');
-                const toggleButton = document.querySelector('#toggleModeButton');
+        function toggleMode() {
+            const body = document.body;
+            const chatroom = document.querySelector('.chatroom');
+            const chatroomHeader = document.querySelector('.chatroom-header');
+            const chatroomMessages = document.querySelector('.chatroom-messages');
+            const input = document.querySelector('input[type="text"]');
+            const button1 = document.getElementById('send');
+            const toggleButton = document.getElementById('toggleModeButton');
+            const moodCheckButton = document.getElementById('moodCheck');
             if (body.classList.contains('dark-mode')) {
                 body.classList.remove('dark-mode');
                 chatroom.style.backgroundColor = '#FFF'; // Light mode background color
@@ -173,8 +201,12 @@ permalink: /chatroom
                 chatroomMessages.style.backgroundColor = '#FFF';
                 input.style.backgroundColor = '#ADD8E6';
                 input.style.color = '#000';
-                button.style.backgroundColor = '#ADD8E6';
-                button.style.color = '#FFF';
+                button1.style.backgroundColor = '#ADD8E6';
+                button1.style.color = '#FFF';
+                toggleButton.style.backgroundColor = '#ADD8E6';
+                toggleButton.style.color = '#FFF';
+                moodCheckButton.style.backgroundColor = '#ADD8E6';
+                moodCheckButton.style.color = '#FFF';
                 toggleButton.textContent = 'Dark Mode';
             } else {
                 body.classList.add('dark-mode');
@@ -184,11 +216,15 @@ permalink: /chatroom
                 chatroomMessages.style.backgroundColor = '#000';
                 input.style.backgroundColor = '#301934';
                 input.style.color = '#FFF';
-                button.style.backgroundColor = '#301934';
-                button.style.color = '#FFF';
+                button1.style.backgroundColor = '#301934';
+                button1.style.color = '#FFF';
+                toggleButton.style.backgroundColor = '#301934';
+                toggleButton.style.color = '#FFF';
+                moodCheckButton.style.backgroundColor = '#301934';
+                moodCheckButton.style.color = '#FFF';
                 toggleButton.textContent = 'Light Mode';
             }
-        }
+        }   
         displayChat();
         setInterval(displayChat, 200);
     </script>
