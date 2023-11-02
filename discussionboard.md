@@ -1,135 +1,169 @@
 ---
 comments: false
 layout: default
-title: Discussion Board
-permalink: /discussionboard
+title: Chatroom
+permalink: /chatroom
 ---
 
 <html>
-<table>
-  <thead>
-  <tr>
-    <th>Joke</th>
-    <th>HaHa</th>
-    <th>Boohoo</th>
-  </tr>
-  </thead>
-  <tbody id="result">
-    <!-- javascript generated data -->
-  </tbody>
-</table>
-<script>
-// prepare HTML defined "result" container for new output
-const resultContainer = document.getElementById("result");
-// keys for joke reactions
-const HAHA = "haha";
-const BOOHOO = "boohoo";
-// prepare fetch urls
-const url = "https://chat.stu.nighthawkcodingsociety.com/api/jokes";
-const like_url = url + "/like/";  // haha reaction
-const jeer_url = url + "/jeer/";  // boohoo reaction
-// prepare fetch GET options
-const options = {
-  method: 'GET', // *GET, POST, PUT, DELETE, etc.
-  mode: 'cors', // no-cors, *cors, same-origin
-  cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
-  credentials: 'omit', // include, *same-origin, omit
-  headers: {
-    'Content-Type': 'application/json'
-    // 'Content-Type': 'application/x-www-form-urlencoded',
-  },
-};
-// prepare fetch PUT options, clones with JS Spread Operator (...)
-const put_options = {...options, method: 'PUT'}; // clones and replaces method
-// fetch the API
-fetch(url, options)
-  // response is a RESTful "promise" on any successful fetch
-  .then(response => {
-    // check for response errors
-    if (response.status !== 200) {
-        error('GET API response failure: ' + response.status);
-        return;
-    }
-    // valid response will have JSON data
-    response.json().then(data => {
-        console.log(data);
-        for (const row of data) {
-          // make "tr element" for each "row of data"
-          const tr = document.createElement("tr");
-          // td for joke cell
-          const joke = document.createElement("td");
-            joke.innerHTML = row.id + ". " + row.joke;  // add fetched data to innerHTML
-          // td for haha cell with onclick actions
-          const haha = document.createElement("td");
-            const haha_but = document.createElement('button');
-            haha_but.id = HAHA+row.id   // establishes a HAHA JS id for cell
-            haha_but.innerHTML = row.haha;  // add fetched "haha count" to innerHTML
-            haha_but.onclick = function () {
-              // onclick function call with "like parameters"
-              reaction(HAHA, like_url+row.id, haha_but.id);  
-            };
-            haha.appendChild(haha_but);  // add "haha button" to haha cell
-          // td for boohoo cell with onclick actions
-          const boohoo = document.createElement("td");
-            const boohoo_but = document.createElement('button');
-            boohoo_but.id = BOOHOO+row.id  // establishes a BOOHOO JS id for cell
-            boohoo_but.innerHTML = row.boohoo;  // add fetched "boohoo count" to innerHTML
-            boohoo_but.onclick = function () {
-              // onclick function call with "jeer parameters"
-              reaction(BOOHOO, jeer_url+row.id, boohoo_but.id);  
-            };
-            boohoo.appendChild(boohoo_but);  // add "boohoo button" to boohoo cell
-          // this builds ALL td's (cells) into tr (row) element
-          tr.appendChild(joke);
-          tr.appendChild(haha);
-          tr.appendChild(boohoo);
-          // this adds all the tr (row) work above to the HTML "result" container
-          resultContainer.appendChild(tr);
+
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #301934;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
-    })
-})
-// catch fetch errors (ie Nginx ACCESS to server blocked)
-.catch(err => {
-  error(err + " " + url);
-});
-// Reaction function to likes or jeers user actions
-function reaction(type, put_url, elemID) {
-  // fetch the API
-  fetch(put_url, put_options)
-  // response is a RESTful "promise" on any successful fetch
-  .then(response => {
-    // check for response errors
-    if (response.status !== 200) {
-        error("PUT API response failure: " + response.status)
-        return;  // api failure
+        .chatroom {
+            width: 700px;
+            height: 600px;
+            background-color: #000;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .chatroom-header {
+            background-color: #301934;
+            color: #000;
+            text-align: center;
+            padding: 10px;
+            border-bottom: 1px solid #301934;
+        }
+        .chatroom-messages {
+            max-height: 460px;
+            min-height: 460px;
+            padding: 8px;
+            overflow-y: auto;
+            background-color: #000;
+            scrollbar-width: thin; /* for Firefox */
+            scrollbar-color: #301934 #000; /* for Firefox */
+        }
+        .chatroom-messages::-webkit-scrollbar {
+            width: 8px; /* for Chrome, Safari, and Opera */
+        }
+        .chatroom-messages::-webkit-scrollbar-thumb {
+            background-color: #301934; /* for Chrome, Safari, and Opera */
+        }
+        .chatroom-messages div {
+            background-color: #000;
+            border-radius: 5px;
+            margin: 5px 0;
+            padding: 10px;
+            word-wrap: break-word;
+        }
+        .chatroom-input {
+            padding: 10px;
+            display: flex;
+            border-top: 1px solid #FFFFFF;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #301934;
+            color: #FFFFFF;
+        }
+        button {
+            background-color: #301934;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chatroom">
+        <div class="chatroom-header">
+            <h1>Chatroom</h1>
+        </div>
+        <div class="chatroom-messages">
+            <!-- Messages will be displayed here -->
+        </div>
+        <div class="chatroom-input">
+            <input type="text" id="message" placeholder="Type your message" onkeypress="handleKeyPress(event)">
+            <button id="send" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    <!-- Script to send and receive messages -->
+    
+<script>
+    const chatBox = document.querySelector(".chatroom-messages");
+    const messageInput = document.getElementById("message");
+    const backendUrl = "https://chat.stu.nighthawkcodingsociety.com/api/chats"; // Base URL for chat API
+
+    // Function to send a message to the server
+    function sendMessage() {
+        const message = messageInput.value.trim();
+        if (message !== '') {
+            // Create a new message element
+            const messageElement = document.createElement("div");
+            const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            messageElement.textContent = `[${timestamp}] ${message}`;
+            // Append the message to the chat box
+            chatBox.appendChild(messageElement);
+            document.getElementById("message").value = "";
+            var scrollDiv = chatBox;
+            var height = scrollDiv.scrollHeight;
+            scrollDiv.scrollTop = height;
+
+            // Send the message to the server using the /create endpoint
+            fetch(backendUrl + '/create', { // Use the /create endpoint for sending messages
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ message: message }),
+            })
+            .then((response) => {
+                if (response.status === 200) {
+                    messageInput.value = ''; // Clear the input field
+                }
+            })
+            .catch((error) => {
+                console.error("Failed to send message to the backend:", error);
+            });
+        }
     }
-    // valid response will have JSON data
-    response.json().then(data => {
-        console.log(data);
-        // Likes or Jeers updated/incremented
-        if (type === HAHA) // like data element
-          document.getElementById(elemID).innerHTML = data.haha;  // fetched haha data assigned to haha Document Object Model (DOM)
-        else if (type === BOOHOO) // jeer data element
-          document.getElementById(elemID).innerHTML = data.boohoo;  // fetched boohoo data assigned to boohoo Document Object Model (DOM)
-        else
-          error("unknown type: " + type);  // should never occur
-    })
-  })
-  // catch fetch errors (ie Nginx ACCESS to server blocked)
-  .catch(err => {
-    error(err + " " + put_url);
-  });
-}
-// Something went wrong with actions or responses
-function error(err) {
-  // log as Error in console
-  console.error(err);
-  // append error to resultContainer
-  const tr = document.createElement("tr");
-  const td = document.createElement("td");
-  td.innerHTML = err;
-  tr.appendChild(td);
-  resultContainer.appendChild(tr);
-}
+
+    function handleKeyPress(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            sendMessage();
+        }
+    }
+
+    // Function to periodically retrieve and display chat messages
+    function displayChat() {
+        // Fetch chat messages from the server using the /read endpoint
+        fetch(backendUrl + '/read', { // Use the /read endpoint to retrieve messages
+            method: "GET",
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            // Clear the chat box before displaying new messages
+            chatBox.innerHTML = "";
+            // Display each new message in the chat box
+            data.forEach((message) => {
+                const messageElement = document.createElement("div");
+                messageElement.textContent = message.message;
+                chatBox.appendChild(messageElement);
+            });
+        })
+        .catch((error) => {
+            console.error("Failed to retrieve chat messages:", error);
+        });
+    }
+
+    // Retrieve and display chat messages initially and every few seconds
+    displayChat();
+    setInterval(displayChat, 2000); // Update the chat every 2 seconds
 </script>
-</html>
