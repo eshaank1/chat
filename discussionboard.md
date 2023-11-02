@@ -141,13 +141,15 @@ permalink: /discussionboard
     }
     // Function to periodically retrieve and display chat messages
     function displayChat() {
-                    alert("Hello! I am an alert box!!");
+        alert("Debug Code 1!!");
         // Fetch chat messages from the server using the /read endpoint
         fetch(backendUrl + '/read', { // Use the /read endpoint to retrieve messages
             method: "GET",
         })
         .then((response) => response.json())
+        alert("Debug Code 2!!");
         .then((data) => {
+            alert("Debug Code 3!!");
             // Clear the chat box before displaying new messages
             chatBox.innerHTML = "";
             // Display each new message in the chat box
