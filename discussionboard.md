@@ -141,27 +141,13 @@ permalink: /discussionboard
     }
     // Function to periodically retrieve and display chat messages
     function displayChat() {
-        alert("Debug Code 1!!");
         // Fetch chat messages from the server using the /read endpoint
         fetch(backendUrl + '/read', { // Use the /read endpoint to retrieve messages
             method: "GET",
         })
-        .then((response) => response.json())
-        alert("Debug Code 2!!");
+        .then(response =>  {
+            response.json())
         .then((data) => {
-            alert("Debug Code 3!!");
-            // Clear the chat box before displaying new messages
-            chatBox.innerHTML = "";
-            // Display each new message in the chat box
-            data.forEach((message) => {
-                const messageElement = document.createElement("div");
-                messageElement.textContent = message.message;
-                chatBox.appendChild(messageElement);
-            });
-        })
-        .catch((error) => {
-            console.error("Failed to retrieve chat messages:", error);
-        });
     }
     // Retrieve and display chat messages initially and every few seconds
     displayChat();
