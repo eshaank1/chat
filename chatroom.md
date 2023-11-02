@@ -92,7 +92,7 @@ permalink: /chatroom
         const chatBox = document.getElementById("chatroom-messages");
         const messageInput = document.getElementById("message");
         const backendUrl = "https://chat.stu.nighthawkcodingsociety.com/api/chats";
-        const badMood = ['trash', 'bad', 'sucks', 'suck', 'stupid', 'jerk', 'mad', 'upset', 'tire', 'bore', 'furious','angry','annoying','sad','unhappy','loser','depressed'];
+        const badMood = ['trash', 'bad', 'sucks', 'suck', 'stupid', 'jerk', 'mad', 'upset', 'tire', 'bore', 'furious','angry','annoying','sad','unhappy','loser','depressed','anger','annoyed'];
         const goodMood = ['like', 'good', 'happy', 'amazing', 'great', 'haha','happy','fabulous','excited', 'fun','joy','ecstatic','sensational','glee','delight'];
         function sendMessage() {
             const message = messageInput.value.trim();
