@@ -1,14 +1,10 @@
 ---
-comments: false
 layout: default
 title: Chatroom
 permalink: /chatroom
 ---
-
-<html>
-<head>
-    <style>
-        body {
+<style>
+    body {
             font-family: Arial, sans-serif;
             background-color: #301934;
             display: flex;
@@ -77,27 +73,26 @@ permalink: /chatroom
             margin-left: 10px;
         }
     </style>
-</head>
+<html>
 <body>
-       <div class="chatroom">
-        <div class="chatroom-header">
-            <h1>Chatroom</h1>
-        </div>
-        <div class="chatroom-messages" id="chatroom-messages">
-            <!-- Messages will be displayed here -->
-        </div>
-        <div class="chatroom-input">
-            <input type="text" id="message" placeholder="Type your message" onkeypress="handleKeyPress(event)">
-            <button id="send" onclick="sendMessage()">Send</button>
-            <button id="toggleModeButton" onclick="toggleMode()">Toggle Mode</button>
-            <button id="moodCheck">Neutral Mood</button>
-        </div>
+    <div class="chatroom">
+    <div class="chatroom-header">
+        <h1>Chatroom</h1>
+    </div>
+    <div class="chatroom-messages" id="chatroom-messages">
+        <!-- Messages will be displayed here -->
+    </div>
+    <div class="chatroom-input">
+        <input type="text" id="message" placeholder="Type your message" onkeypress="handleKeyPress(event)">
+        <button id="send" onclick="sendMessage()">Send</button>
+        <button id="toggleModeButton" onclick="toggleMode()">Toggle Mode</button>
+        <button id="moodCheck">Neutral Mood</button>
     </div>
     <script>
         const chatBox = document.getElementById("chatroom-messages");
         const messageInput = document.getElementById("message");
         const backendUrl = "https://chat.stu.nighthawkcodingsociety.com/api/chats";
-        const badMood = ['trash', 'bad', 'sucks', 'suck', 'stupid', 'jerk', 'mad', 'upset', 'tire', 'bore','furious', 'angry','annoying','sad','unhappy','loser','depressed'];
+        const badMood = ['trash', 'bad', 'sucks', 'suck', 'stupid', 'jerk', 'mad', 'upset', 'tire', 'bore', 'furious','angry','annoying','sad','unhappy','loser','depressed'];
         const goodMood = ['like', 'good', 'happy', 'amazing', 'great', 'haha','happy','fabulous','excited', 'fun','joy','ecstatic','sensational','glee','delight'];
         function sendMessage() {
             const message = messageInput.value.trim();
