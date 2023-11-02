@@ -79,7 +79,7 @@ permalink: /chatroom
     </style>
 </head>
 <body>
-    <div class="chatroom">
+       <div class="chatroom">
         <div class="chatroom-header">
             <h1>Chatroom</h1>
         </div>
@@ -91,96 +91,73 @@ permalink: /chatroom
             <button id="send" onclick="sendMessage()">Send</button>
         </div>
     </div>
-    <!-- Script to send and receive messages -->
     <script>
-    const chatBox = document.getElementById("chatroom-messages");
-    const messageInput = document.getElementById("message");
-    const backendUrl = "https://chat.stu.nighthawkcodingsociety.com/api/chats"; // Base URL for chat API
-    let shouldScrollToBottom = true; // Flag to control auto-scrolling
-    // Set the flag based on initial scroll position
-    shouldScrollToBottom = chatBox.scrollTop + chatBox.clientHeight === chatBox.scrollHeight;
-    // Add an event listener to the chat box for detecting manual scrolling
-    chatBox.addEventListener('scroll', () => {
-        // Calculate the maximum scroll position that is considered "at the bottom"
-        const maxScrollAtBottom = chatBox.scrollHeight - chatBox.clientHeight;
-        // Check if the user is at the bottom of the chat box or near it
-        shouldScrollToBottom = chatBox.scrollTop >= maxScrollAtBottom;
-    });
-    // Function to send a message to the server
-    function sendMessage() {
-        const message = messageInput.value.trim();
-        if (message !== '') {
-            const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            const messageWithTimestamp = `[${timestamp}] ${message}`;
-            // Create a new message element
-            const messageElement = document.createElement("div");
-            messageElement.textContent = messageWithTimestamp;
-            // Append the message to the chat box
-            chatBox.appendChild(messageElement);
-            // Ensure only the last 50 messages are displayed
-            const messages = chatBox.querySelectorAll("div");
-            if (messages.length > 50) {
-                chatBox.removeChild(messages[0]);
+        const chatBox = document.getElementById("chatroom-messages");
+        const messageInput = document.getElementById("message");
+        const backendUrl = "https://chat.stu.nighthawkcodingsociety.com/api/chats";
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (message !== '') {
+                const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const messageWithTimestamp = `[${timestamp}] ${message}`;
+                const messageElement = document.createElement("div");
+                messageElement.textContent = messageWithTimestamp;
+                // Move all existing messages up one position
+                const messages = chatBox.querySelectorAll("div");
+                for (let i = messages.length - 1; i >= 0; i--) {
+                    if (i === 0) {
+                        chatBox.removeChild(messages[i]);
+                    } else {
+                        messages[i].textContent = messages[i - 1].textContent;
+                    }
+                }
+                // Add the new message at the top
+                chatBox.appendChild(messageElement);
+                document.getElementById("message").value = "";
+                fetch(backendUrl + '/create', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ message: messageWithTimestamp }),
+                })
+                .then((response) => {
+                    if (response.status === 200) {
+                        messageInput.value = '';
+                    }
+                })
+                .catch((error) => {
+                    console.error("Failed to send message to the backend:", error);
+                });
             }
-            document.getElementById("message").value = "";
-            // Send the message to the server using the /create endpoint
-            fetch(backendUrl + '/create', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ message: messageWithTimestamp }), // Send the message with timestamp
+        }
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+        function displayChat() {
+            fetch(backendUrl + '/read', {
+                method: "GET",
             })
-            .then((response) => {
-                if (response.status === 200) {
-                    messageInput.value = ''; // Clear the input field
+            .then((response) => response.json())
+            .then((data) => {
+                // Clear the chat box
+                chatBox.innerHTML = "";
+                // Display each new message in the chat box
+                for (let i = data.length - 1; i >= 0; i--) {
+                    const messageElement = document.createElement("div");
+                    messageElement.textContent = data[i].message;
+                    chatBox.appendChild(messageElement);
                 }
             })
             .catch((error) => {
-                console.error("Failed to send message to the backend:", error);
+                console.error("Failed to retrieve chat messages:", error);
             });
         }
-    }
-    function handleKeyPress(event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            sendMessage();
-        }
-    }
-    // Function to scroll to the bottom of the chatbox
-    function scrollToBottomIfAtBottom() {
-        if (shouldScrollToBottom) {
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-    }
-    // Function to periodically retrieve and display chat messages
-    function displayChat() {
-        // Fetch chat messages from the server using the /read endpoint
-        fetch(backendUrl + '/read', {
-            method: "GET",
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            // Get the current scroll position
-            const prevScrollTop = chatBox.scrollTop;
-            // Clear the chat box before displaying new messages
-            chatBox.innerHTML = "";
-            // Display each new message in the chat box in reverse order
-            for (let i = Math.max(data.length - 50, 0); i < data.length; i++) {
-                const messageElement = document.createElement("div");
-                messageElement.textContent = data[i].message;
-                chatBox.appendChild(messageElement);
-            }
-            // If the user was at the bottom before new messages, scroll to the bottom
-            scrollToBottomIfAtBottom();
-        })
-        .catch((error) => {
-            console.error("Failed to retrieve chat messages:", error);
-        });
-    }
-    // Retrieve and display chat messages initially and every few seconds
-    displayChat();
-    setInterval(displayChat, 200); // Update the chat every 0.2 seconds
+        displayChat();
+        setInterval(displayChat, 200);
     </script>
 </body>
 </html>
