@@ -89,6 +89,7 @@ permalink: /chatroom
         <div class="chatroom-input">
             <input type="text" id="message" placeholder="Type your message" onkeypress="handleKeyPress(event)">
             <button id="send" onclick="sendMessage()">Send</button>
+            <button id="toggleModeButton" onclick="toggleMode()">Toggle Mode</button>
         </div>
     </div>
     <script>
@@ -155,6 +156,38 @@ permalink: /chatroom
             .catch((error) => {
                 console.error("Failed to retrieve chat messages:", error);
             });
+        }
+            function toggleMode() {
+                const body = document.body;
+                const chatroom = document.querySelector('.chatroom');
+                const chatroomHeader = document.querySelector('.chatroom-header');
+                const chatroomMessages = document.querySelector('.chatroom-messages');
+                const input = document.querySelector('input[type="text"]');
+                const button = document.querySelector('button#send');
+                const toggleButton = document.querySelector('#toggleModeButton');
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                chatroom.style.backgroundColor = '#FFF'; // Light mode background color
+                chatroomHeader.style.backgroundColor = '#ADD8E6';
+                chatroomHeader.style.color = '#000';
+                chatroomMessages.style.backgroundColor = '#FFF';
+                input.style.backgroundColor = '#ADD8E6';
+                input.style.color = '#000';
+                button.style.backgroundColor = '#ADD8E6';
+                button.style.color = '#FFF';
+                toggleButton.textContent = 'Dark Mode';
+            } else {
+                body.classList.add('dark-mode');
+                chatroom.style.backgroundColor = '#000'; // Dark mode background color
+                chatroomHeader.style.backgroundColor = '#301934';
+                chatroomHeader.style.color = '#000';
+                chatroomMessages.style.backgroundColor = '#000';
+                input.style.backgroundColor = '#301934';
+                input.style.color = '#FFF';
+                button.style.backgroundColor = '#301934';
+                button.style.color = '#FFF';
+                toggleButton.textContent = 'Light Mode';
+            }
         }
         displayChat();
         setInterval(displayChat, 200);
