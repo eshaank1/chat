@@ -100,8 +100,7 @@ permalink: /chatroom
     const messageInput = document.getElementById("message");
     const backendUrl = "https://chat.stu.nighthawkcodingsociety.com/api/chats"; // Base URL for chat API
 
-    // Function to send a message to the server
-// Function to send a message to the server
+ // Function to send a message to the server
 function sendMessage() {
     const message = messageInput.value.trim();
     if (message !== '') {
@@ -112,8 +111,14 @@ function sendMessage() {
         const messageElement = document.createElement("div");
         messageElement.textContent = messageWithTimestamp;
 
+        // Calculate the current scroll position
+        const currentScrollPosition = chatBox.scrollTop;
+
         // Append the message to the chat box
         chatBox.appendChild(messageElement);
+
+        // Set the scroll position back to the previous value
+        chatBox.scrollTop = currentScrollPosition;
 
         // Ensure only the last 50 messages are displayed
         const messages = chatBox.querySelectorAll("div");
@@ -122,9 +127,6 @@ function sendMessage() {
         }
 
         document.getElementById("message").value = "";
-        var scrollDiv = chatBox;
-        var height = scrollDiv.scrollHeight;
-        scrollDiv.scrollTop = height;
 
         // Send the message to the server using the /create endpoint
         fetch(backendUrl + '/create', {
@@ -142,13 +144,6 @@ function sendMessage() {
         .catch((error) => {
             console.error("Failed to send message to the backend:", error);
         });
-    }
-}
-
-function handleKeyPress(event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        sendMessage();
     }
 }
 
