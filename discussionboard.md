@@ -146,8 +146,12 @@ permalink: /discussionboard
             method: "GET",
         })
         .then(response =>  {
-            response.json())
-        .then((data) => {
+            alert('Debug 3'); 
+        })
+        .catch((error) => {
+            console.error("Failed to retrieve chat messages:", error);
+        });
+
     }
     // Retrieve and display chat messages initially and every few seconds
     displayChat();
