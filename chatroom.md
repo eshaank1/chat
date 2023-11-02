@@ -78,6 +78,7 @@ permalink: /chatroom
     <div class="chatroom">
     <div class="chatroom-header">
         <h1>Chatroom</h1>
+        <button id="toggleModeButton" onclick="toggleMode()">Toggle Mode</button>
     </div>
     <div class="chatroom-messages" id="chatroom-messages">
         <!-- Messages will be displayed here -->
@@ -85,7 +86,6 @@ permalink: /chatroom
     <div class="chatroom-input">
         <input type="text" id="message" placeholder="Type your message" onkeypress="handleKeyPress(event)">
         <button id="send" onclick="sendMessage()">Send</button>
-        <button id="toggleModeButton" onclick="toggleMode()">Toggle Mode</button>
         <button id="moodCheck">Neutral Mood</button>
     </div>
     <script>
