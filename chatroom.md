@@ -142,7 +142,7 @@ permalink: /chatroom
         chatBox.scrollTop = chatBox.scrollHeight;
     }
     // Function to periodically retrieve and display chat messages
-   let shouldScrollToBottom = true; // Flag to control auto-scrolling
+  let shouldScrollToBottom = true; // Flag to control auto-scrolling
 // Function to scroll to the bottom of the chatbox if already at the bottom
 function scrollToBottomIfAtBottom() {
     if (shouldScrollToBottom) {
@@ -151,8 +151,10 @@ function scrollToBottomIfAtBottom() {
 }
 // Add an event listener to the chat box for detecting manual scrolling
 chatBox.addEventListener('scroll', () => {
-    // Check if the user is at the bottom of the chat box
-    shouldScrollToBottom = chatBox.scrollTop + chatBox.clientHeight === chatBox.scrollHeight;
+    // Calculate the maximum scroll position that is considered "at the bottom"
+    const maxScrollAtBottom = chatBox.scrollHeight - chatBox.clientHeight;
+    // Check if the user is at the bottom of the chat box or near it
+    shouldScrollToBottom = chatBox.scrollTop >= maxScrollAtBottom;
 });
 // Function to periodically retrieve and display chat messages
 function displayChat() {
@@ -174,7 +176,7 @@ function displayChat() {
             }
             // If the user was at the bottom before new messages, scroll to the bottom
             if (shouldScrollToBottom) {
-                scrollToBottom();
+                scrollToBottomIfAtBottom();
             } else {
                 // If the user was not at the bottom, maintain the scroll position
                 chatBox.scrollTop = prevScrollTop;
