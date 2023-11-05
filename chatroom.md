@@ -224,4 +224,3 @@ permalink: /chatroom
         setInterval(displayChat, 200);
     </script>
 </body>
-</html>
